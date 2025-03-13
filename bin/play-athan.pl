@@ -15,9 +15,11 @@ our $VERBOSE = $ENV{ATHAN_VERBOSE} || 0;
 my $TIME = $ARGV[0];
 die "Usage: $0 <athan_time_folder> <athan_folder> <log_folder>\nERROR: Missing athan time foler.\n"
     unless (defined $TIME);
+
 my $ATHAN = $ARGV[1];
 die "Usage: $0 <athan_time_folder> <athan_folder> <log_folder>\nERROR: Missing athan foler.\n"
     unless (defined $ATHAN);
+
 my $LOG = $ARGV[2] || '/tmp';
 
 my $year_month = localtime->strftime('%Y-%m');

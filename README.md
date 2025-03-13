@@ -11,7 +11,7 @@ It is tab separated data, just copy from the page and save it in the [**input fo
 
 The above time table then get parsed and saved into the [**output folder**](https://github.com/manwar/athan-app/tree/master/output) using [**the script**](https://github.com/manwar/athan-app/blob/master/bin/gen-timetable.pl).
 
-      $ perl bin/gen-timetable input/ output/
+      $ perl bin/gen-timetable.pl input/ output/
 
 During the month of, say `March 2025`, the above command would pick source timetable `input/2025-03.txt` and generate the athan time in `output/2025-03.txt`.
 

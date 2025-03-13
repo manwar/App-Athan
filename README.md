@@ -47,4 +47,4 @@ The folder [**athan/**](https://github.com/manwar/athan-app/tree/master/athan) c
 
 By default application log in the `/tmp/athan-app.log` file.
 
-The environment variable `ATHAN_VERBOSE` enables the logging of beat i.e. `10 seconds`.
+The environment variable `ATHAN_VERBOSE` enables the logging of heartbeat every `10 seconds`.

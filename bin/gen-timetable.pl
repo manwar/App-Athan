@@ -6,16 +6,16 @@ use Time::Piece;
 my $year_month = localtime->strftime('%Y-%m');
 my ($year, $month) = split /\-/, $year_month, 2;
 
-our $IN    = $ARGV[0];
+my $IN = $ARGV[0];
 die "Usage: $0 <input_folder> <output_folder> <year> <month>\nERROR: Missing input foler.\n"
     unless (defined $IN);
 
-our $OUT   = $ARGV[1];
+my $OUT = $ARGV[1];
 die "Usage: $0 <input_folder> <output_folder> <year> <month>\nERROR: Missing output folder.\n"
     unless (defined $OUT);
 
-our $YEAR  = $ARGV[2] || $year;
-our $MONTH = $ARGV[3] || $month;
+my $YEAR  = $ARGV[2] || $year;
+my $MONTH = $ARGV[3] || $month;
 
 die "Usage: $0 <input_folder> <output_folder> <year> <month>\nERROR: Invalid year $YEAR.\n"
     unless ($YEAR > 0);

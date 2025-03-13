@@ -3,9 +3,12 @@
 use v5.38;
 use Time::Piece;
 use FFI::Platypus;
-use FFI::Platypus::Record;
 use Time::HiRes qw(usleep);
 use POSIX qw(strftime setsid);
+
+$SIG{'TERM'} = $SIG{'HUP'} = $SIG{'INT'} = sub {
+    log_it(sprintf("Athan app stopped @ %s.", current_time())) and exit 0;
+};
 
 our $VERBOSE = $ENV{ATHAN_VERBOSE} || 0;
 
@@ -22,6 +25,29 @@ my ($year, $month) = split /\-/, $year_month, 2;
 
 my $TIME_FILE = sprintf("%s/%04d-%02d.txt", $TIME, $year, $month);
 my $LOG_FILE  = sprintf("%s/athan-app.log", $LOG);
+
+log_it(sprintf("Athan app started @ %s.", current_time()));
+
+my %scheduled_times = read_scheduled_times();
+while (1) {
+    my $current_time = current_time();
+    if (exists $scheduled_times{$current_time}) {
+        play_athan($scheduled_times{$current_time});
+    }
+    else {
+        log_it("SLEEP: $current_time") if $VERBOSE;
+    }
+    sleep 10;
+}
+
+#
+#
+# METHODS
+
+sub current_time {
+    my $now = localtime;
+    return $now->strftime('%Y-%m-%d %I:%M');
+}
 
 sub read_scheduled_times {
     open(my $fh, '<', $TIME_FILE)
@@ -102,20 +128,4 @@ sub play_athan($type) {
     Mix_FreeMusic($music);
     Mix_CloseAudio();
     SDL_Quit();
-}
-
-## MAIN PROGRAM
-
-my %scheduled_times = read_scheduled_times();
-while (1) {
-    my $current_tp   = localtime;
-    my $current_time = $current_tp->strftime('%Y-%m-%d %I:%M');
-
-    if (exists $scheduled_times{$current_time}) {
-        play_athan($scheduled_times{$current_time});
-    }
-    else {
-        log_it("SLEEP: $current_time") if $VERBOSE;
-    }
-    sleep 10;
 }

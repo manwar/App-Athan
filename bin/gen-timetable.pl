@@ -23,7 +23,7 @@ die "Usage: $0 <input_folder> <output_folder> <year> <month>\nERROR: Invalid yea
 die "Usage: $0 <input_folder> <output_folder> <year> <month>\nERROR: Invalid month $MONTH.\n"
     unless ($MONTH >= 1 && $MONTH <= 12);
 
-my $IN_FILE  = sprintf("%s/%04d-%02d.txt", $IN, $YEAR, $MONTH);
+my $IN_FILE  = sprintf("%s/%04d-%02d.txt", $IN,  $YEAR, $MONTH);
 my $OUT_FILE = sprintf("%s/%04d-%02d.txt", $OUT, $YEAR, $MONTH);
 
 open(my $out, '>', $OUT_FILE)
@@ -44,9 +44,9 @@ while (my $line = <$in>) {
     my $i = 0;
     foreach my $time (@selected_times) {
         my ($hour, $minute) = split /:/, $time;
-        $hour = sprintf("%02d", $hour);
+        $hour   = sprintf("%02d", $hour);
         $minute = sprintf("%02d", $minute);
-        $time = ($i == 0)? "$hour:$minute|F" : "$hour:$minute|R";
+        $time   = ($i == 0)? "$hour:$minute|F" : "$hour:$minute|R";
         $i++;
     }
 

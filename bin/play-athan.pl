@@ -38,7 +38,7 @@ while (1) {
         play_athan($scheduled_times{$current_time});
     }
     else {
-        log_it("SLEEP: $current_time") if $VERBOSE;
+        log_it("Heartbeat: ". current_time(1)) if $VERBOSE;
     }
     sleep 10;
 }
@@ -47,9 +47,14 @@ while (1) {
 #
 # METHODS
 
-sub current_time {
+sub current_time($ss_also=0) {
     my $now = localtime;
-    return $now->strftime('%Y-%m-%d %I:%M');
+    if ($ss_also) {
+        return $now->strftime('%Y-%m-%d %I:%M:%S');
+    }
+    else {
+        return $now->strftime('%Y-%m-%d %I:%M');
+    }
 }
 
 sub read_scheduled_times {

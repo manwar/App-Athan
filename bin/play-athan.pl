@@ -6,29 +6,30 @@ use FFI::Platypus;
 use Time::HiRes qw(usleep);
 use POSIX qw(strftime setsid);
 
-$SIG{'TERM'} = $SIG{'HUP'} = $SIG{'INT'} = sub {
-    log_it(sprintf("Athan app stopped @ %s.", current_time())) and exit 0;
-};
-
 our $VERBOSE = $ENV{ATHAN_VERBOSE} || 0;
 
 my $TIME = $ARGV[0];
-die "Usage: $0 <athan_time_folder> <athan_folder> <log_folder>\nERROR: Missing athan time foler.\n"
+die "Usage: $0 <athan_time_folder> <athan_folder> <mosque_code> <log_folder>\nERROR: Missing athan time foler.\n"
     unless (defined $TIME);
 
 my $ATHAN = $ARGV[1];
-die "Usage: $0 <athan_time_folder> <athan_folder> <log_folder>\nERROR: Missing athan foler.\n"
+die "Usage: $0 <athan_time_folder> <athan_folder> <mosque_code> <log_folder>\nERROR: Missing athan foler.\n"
     unless (defined $ATHAN);
 
-my $LOG = $ARGV[2] || '/tmp';
+my $MOSQUE = $ARGV[2] || 'hcm';
+my $LOG = $ARGV[3] || '/tmp';
 
 my $year_month = localtime->strftime('%Y-%m');
 my ($year, $month) = split /\-/, $year_month, 2;
 
-my $TIME_FILE = sprintf("%s/%04d-%02d.txt", $TIME, $year, $month);
+my $TIME_FILE = sprintf("%s/%s-%04d-%02d.txt", $TIME, lc($MOSQUE), $year, $month);
 my $LOG_FILE  = sprintf("%s/athan-app.log", $LOG);
 
-log_it(sprintf("Athan app started @ %s.", current_time()));
+log_it(sprintf("Athan app started for [$MOSQUE] @ %s.", current_time()));
+
+$SIG{'TERM'} = $SIG{'HUP'} = $SIG{'INT'} = sub {
+    log_it(sprintf("Athan app stopped for [$MOSQUE] @ %s.", current_time())) and exit 0;
+};
 
 my %scheduled_times = read_scheduled_times();
 while (1) {

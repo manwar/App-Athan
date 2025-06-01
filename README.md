@@ -1,4 +1,4 @@
-## Athan App
+## App Athan
 ***
 
 ### Athan Timetable Data
